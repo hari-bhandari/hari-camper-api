@@ -5,11 +5,13 @@ const morgan=require('morgan')
 const errorHandler=require('./middleware/error')
 const connectDB=require('./config/db')
 const fileUpload=require('express-fileupload')
+
 //env vars
 dotenv.config({path:'./config/config.env'});
 //ROutes files
 const bootcamps=require('./Routes/bootcamps');
 const courses=require('./Routes/courses');
+const auth=require('./Routes/auth');
 const logger=require('./middleware/logger')
 
 const app= express();
@@ -31,6 +33,7 @@ app.use(express.static(path.join(__dirname,'public')))
 //Mount router
 app.use('/api/v1/bootcamps',bootcamps);
 app.use('/api/v1/courses',courses);
+app.use('/api/v1/auth',auth);
 
 //error handler middle ware
 app.use(errorHandler)
