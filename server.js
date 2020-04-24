@@ -1,12 +1,15 @@
 const express =require('express');
+const path=require('path')
 const dotenv=require('dotenv');
 const morgan=require('morgan')
 const errorHandler=require('./middleware/error')
 const connectDB=require('./config/db')
+const fileUpload=require('express-fileupload')
 //env vars
 dotenv.config({path:'./config/config.env'});
 //ROutes files
 const bootcamps=require('./Routes/bootcamps');
+const courses=require('./Routes/courses');
 const logger=require('./middleware/logger')
 
 const app= express();
@@ -20,9 +23,14 @@ app.use(express.json());
 if(process.env.NODE_ENV==='development'){
     app.use(morgan('dev'))
 }
+//file upload
+app.use(fileUpload());
 
+//set static folder
+app.use(express.static(path.join(__dirname,'public')))
 //Mount router
 app.use('/api/v1/bootcamps',bootcamps);
+app.use('/api/v1/courses',courses);
 
 //error handler middle ware
 app.use(errorHandler)
