@@ -1,5 +1,5 @@
-const Course=require('../modals/Course');
-const Bootcamp=require('../modals/Bootcamp');
+const Course=require('../models/Course');
+const Bootcamp=require('../models/Bootcamp');
 const asyncHandler=require('../middleware/async')
 const ErrorResponse=require('../utils/errorResponse')
 
@@ -8,23 +8,17 @@ const ErrorResponse=require('../utils/errorResponse')
 //@route GET /api/v1/bootcamps/:bootcampId/courses
 //@access Public
 exports.getCourses=asyncHandler(async (req,res,next)=>{
-    let query;
     if(req.params.bootcampId){
-        query=Course.find({bootcamp:req.params.bootcampId})
+       const courses=await Course.find({bootcamp:req.params.bootcampId})
+        return res.status(200).json({
+            success:true,
+            count:courses.courses.length,
+            data:courses
+        })
     }
     else{
-        query=Course.find().populate({
-            path:'bootcamp',
-            select:'name description'
-
-        });
+        res.status(200).json(res.advancedResults)
     }
-    const courses= await query;
-    res.status(200).json({
-        success:true,
-        count:courses.length,
-        data:courses
-    });
 })
 //@desc Get a single course
 //@route GET /api/v1/course/:id

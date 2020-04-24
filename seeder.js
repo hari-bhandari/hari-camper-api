@@ -6,8 +6,8 @@ const dotenv=require('dotenv')
 dotenv.config({path:'./config/config.env'})
 
 //Load models
-const Bootcamp=require('./modals/Bootcamp')
-const Course=require('./modals/Course')
+const Bootcamp=require('./models/Bootcamp')
+const Course=require('./models/Course')
 //connect to database
 mongoose.connect('mongodb+srv://hari:hari@bootcamp-nosul.mongodb.net/bootcamp-data?retryWrites=true&w=majority',{
     useNewUrlParser:true,
