@@ -70,14 +70,14 @@ exports.forgotPassword=asyncHandler(async (req,res,next)=>{
 
     await user.save({ validateBeforeSave:false})
     //Create resetURL =
-    const reqURL=`${req.protocol}://${req.get('host')}/api/v1/resetpassword/${resetToken}`
-    const message=`you are receiving this email because you ?(or someone else) has requested to reset he password. please click on the link to continue ${reqURL}`;
+    const resetURL=`${req.protocol}://${req.get('host')}/api/v1/resetpassword/${resetToken}`
+    const message=`you are receiving this email because you ?(or someone else) has requested to reset he password. please click on the link to continue ${resetURL}`;
     try{
-        sendEmail({
+        await sendEmail({
             email:user.email,
             subject:`Reset password for HARI CAMPER`,
             message})
-        res.status(200).json({success:true,data:'Email has been sent'})
+        return res.status(200).json({success:true,data:'Email has been sent'})
 
     }catch (err) {
         console.log(err);
