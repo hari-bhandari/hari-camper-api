@@ -1,6 +1,8 @@
 const User=require('../models/User');
 const asyncHandler=require('../middleware/async');
+const sendEmail=require('../utils/sendEmail')
 const ErrorResponse=require('../utils/errorResponse');
+
 
 //@desc register a user
 //@route POST /api/v1/auth/register
@@ -67,6 +69,24 @@ exports.forgotPassword=asyncHandler(async (req,res,next)=>{
     const resetToken=user.getResetPasswordToken();
 
     await user.save({ validateBeforeSave:false})
+    //Create resetURL =
+    const reqURL=`${req.protocol}://${req.get('host')}/api/v1/resetpassword/${resetToken}`
+    const message=`you are receiving this email because you ?(or someone else) has requested to reset he password. please click on the link to continue ${reqURL}`;
+    try{
+        sendEmail({
+            email:user.email,
+            subject:`Reset password for HARI CAMPER`,
+            message})
+        res.status(200).json({success:true,data:'Email has been sent'})
+
+    }catch (err) {
+        console.log(err);
+        user.resetPasswordToken=undefined;
+        user.resetPasswordExpire=undefined;
+        await user.save({validateBeforeSave:false})
+
+        return next(new ErrorResponse(`EMAIL COULD NOT BE SENT`,500))
+    }
     res.status(200).json({
         success:true,
         data:user
