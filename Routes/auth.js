@@ -1,5 +1,5 @@
 const express=require('express');
-const {register,login,getMe,forgotPassword,resetPassword,updateDetails,updatePassword}=require('../controllers/auth');
+const {register,login,getMe,forgotPassword,resetPassword,updateDetails,updatePassword,logout}=require('../controllers/auth');
 
 const router=express.Router();
 
@@ -12,4 +12,5 @@ router.route('/updatedetails').put(protect,updateDetails)
 router.route('/updatepassword').put(protect,updatePassword)
 router.route('/forgotpassword').post(forgotPassword)
 router.route('/forgotpassword/:resettoken').put(resetPassword)
+router.route('/logout').get(logout)
 module.exports=router;

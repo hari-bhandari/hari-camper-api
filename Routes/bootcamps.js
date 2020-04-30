@@ -8,8 +8,10 @@ const {protect,authorize}=require('../middleware/auth')
 
 //Include other resource router
 const courseRouter=require('./courses')
+const reviewRouter=require('./reviews')
 //Re route into other resource routers
 router.use('/:bootcampId/courses',courseRouter)
+router.use('/:bootcampId/reviews',reviewRouter)
 //env vars
 router.route('/radius/:zipcode/:distance').get(getBootcampsInRadius);
 router.route('/').get(advancedResults(Bootcamp,'courses'),getBootcamps).post(protect,authorize('publisher','admin'),createBootcamp);
