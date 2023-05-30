@@ -13,9 +13,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Change Execution Policy
-        run: |
-          Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope Process -Force
-
       - name: Create a new folder
-        run: mkdir 1
+        run: New-Item -ItemType directory -Path ./1
+        shell: powershell
