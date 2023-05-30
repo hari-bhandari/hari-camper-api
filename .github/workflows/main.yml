@@ -1,0 +1,17 @@
+name: Create a new folder
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  create_folder:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Create a new folder
+        run: mkdir 1
