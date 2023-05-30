@@ -7,11 +7,15 @@ on:
 
 jobs:
   create_folder:
-    runs-on: self-hosted
+    runs-on: [self-hosted, Windows, X64]
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: Change Execution Policy
+        run: |
+          Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope Process -Force
 
       - name: Create a new folder
         run: mkdir 1
