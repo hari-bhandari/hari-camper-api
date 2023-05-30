@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  create_folder:
+  create_folder_windows:
     runs-on: [self-hosted, Windows, X64]
 
     steps:
@@ -16,4 +16,14 @@ jobs:
       - name: Create a new folder
         run: New-Item -ItemType directory -Path ./1
         shell: powershell
-        
+
+  create_folder_mac:
+    runs-on: [self-hosted, macOS, X64]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Create a new folder
+        run: mkdir 1
+        shell: bash
